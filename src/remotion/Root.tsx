@@ -7,7 +7,10 @@ import { AdCreative } from './compositions/AdCreative';
 import { TransitionShowcase } from './compositions/TransitionShowcase';
 import { ShapesDemo } from './compositions/ShapesDemo';
 
-// Schemas for type-safe props
+// =============================================================================
+// PROP SCHEMAS - Type-safe props with Zod validation
+// =============================================================================
+
 const socialMediaVideoSchema = z.object({
   headline: z.string(),
   subheadline: z.string(),
@@ -19,10 +22,12 @@ const socialMediaVideoSchema = z.object({
 const productDemoSchema = z.object({
   productName: z.string(),
   tagline: z.string(),
-  features: z.array(z.object({
-    title: z.string(),
-    description: z.string(),
-  })),
+  features: z.array(
+    z.object({
+      title: z.string(),
+      description: z.string(),
+    })
+  ),
   brandColor: z.string(),
 });
 
@@ -35,26 +40,34 @@ const adCreativeSchema = z.object({
   accentColor: z.string(),
 });
 
-// Transition showcase schema
 const transitionShowcaseSchema = z.object({
-  scenes: z.array(z.object({
-    title: z.string(),
-    subtitle: z.string(),
-    backgroundColor: z.string(),
-  })),
+  scenes: z.array(
+    z.object({
+      title: z.string(),
+      subtitle: z.string(),
+      backgroundColor: z.string(),
+    })
+  ),
   transitionType: z.enum(['slide', 'fade', 'wipe', 'flip']),
 });
 
-// Shapes demo schema
 const shapesDemoSchema = z.object({
   title: z.string(),
   shapes: z.array(z.enum(['rect', 'circle', 'triangle', 'star', 'polygon'])),
   brandColor: z.string(),
 });
 
+// =============================================================================
+// ROOT COMPONENT - All compositions registered here
+// =============================================================================
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* ============================================ */}
+      {/* MAIN COMPOSITIONS - Production Ready */}
+      {/* ============================================ */}
+
       {/* Social Media Videos - 9:16 Vertical (TikTok, Reels, Shorts) */}
       <Composition
         id="SocialMediaVideo"
@@ -114,10 +127,10 @@ export const RemotionRoot: React.FC = () => {
       />
 
       {/* ============================================ */}
-      {/* STUDIO FEATURES - Transitions & Shapes */}
+      {/* STUDIO DEMOS - Showcase Remotion Features */}
       {/* ============================================ */}
 
-      <Folder name="Studio Features">
+      <Folder name="StudioFeatures">
         {/* Transition Showcase - Demonstrates @remotion/transitions */}
         <Composition
           id="TransitionShowcase"
@@ -129,9 +142,21 @@ export const RemotionRoot: React.FC = () => {
           height={1080}
           defaultProps={{
             scenes: [
-              { title: 'Scene 1', subtitle: 'Introduction', backgroundColor: '#0ea5e9' },
-              { title: 'Scene 2', subtitle: 'Features', backgroundColor: '#8b5cf6' },
-              { title: 'Scene 3', subtitle: 'Call to Action', backgroundColor: '#ec4899' },
+              {
+                title: 'Scene 1',
+                subtitle: 'Introduction',
+                backgroundColor: '#0ea5e9',
+              },
+              {
+                title: 'Scene 2',
+                subtitle: 'Features',
+                backgroundColor: '#8b5cf6',
+              },
+              {
+                title: 'Scene 3',
+                subtitle: 'Call to Action',
+                backgroundColor: '#ec4899',
+              },
             ],
             transitionType: 'slide',
           }}

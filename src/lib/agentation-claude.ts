@@ -1,52 +1,10 @@
 // Agentation + Claude Code Integration
 // Bridges feedback annotations with AI-powered redesign suggestions
 
-export interface Annotation {
-  id: string;
-  element: string;
-  comment: string;
-  timestamp: Date;
-  viewport: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-  boundingBox: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-  metadata?: {
-    cssClass?: string;
-    accessibilityInfo?: string;
-    computedStyles?: Record<string, string>;
-  };
-}
+import type { Annotation, RedesignTask, ClaudeCodeExport } from '@/types/agentation';
 
-export interface RedesignTask {
-  id: string;
-  type: 'fix' | 'improve' | 'refactor' | 'add';
-  priority: 'critical' | 'high' | 'medium' | 'low';
-  category: 'ux' | 'accessibility' | 'performance' | 'visual' | 'content';
-  selector: string;
-  currentState: string;
-  desiredState: string;
-  suggestedFix: string;
-  codeSnippet?: string;
-  relatedAnnotations: string[];
-}
-
-export interface ClaudeCodeExport {
-  version: string;
-  exportedAt: string;
-  project: string;
-  pageUrl: string;
-  annotations: Annotation[];
-  tasks: RedesignTask[];
-  summary: string;
-}
+// Re-export types for consumers
+export type { Annotation, RedesignTask, ClaudeCodeExport };
 
 // Analyze annotations and generate redesign tasks
 export function analyzeAnnotations(annotations: Annotation[]): RedesignTask[] {

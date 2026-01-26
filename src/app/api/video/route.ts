@@ -36,10 +36,8 @@ export async function POST(request: NextRequest) {
     // Generate video configuration
     const result = await generateVideo(validatedInput);
 
-    return NextResponse.json({
-      success: true,
-      ...result,
-    });
+    // result already contains success: true, return directly
+    return NextResponse.json(result);
   } catch (error) {
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json(

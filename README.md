@@ -1,6 +1,8 @@
-# 🔥 10x Marketing Team
+# 10x Marketing Team
 
 **20 AI agents** for video creation, copywriting, landing pages, and ads with Remotion Studio and Agentation visual feedback.
+
+**Developed by [10x.in](https://10x.in)**
 
 ---
 
@@ -108,7 +110,7 @@ npm run remotion:studio
 - `@remotion/gif` - GIF support
 - `@remotion/noise` - Perlin noise
 - `@remotion/motion-blur` - Trail effects
-- `@remotion/three` - 3D support
+- `@remotion/three` - 3D support (Three.js)
 - `@remotion/lottie` - Lottie animations
 - `@remotion/lambda` - AWS Lambda rendering
 - `@remotion/cloudrun` - GCP Cloud Run rendering
@@ -183,6 +185,7 @@ REMOTION_CLOUD_API_KEY=
 ├── src/
 │   ├── app/
 │   ├── components/
+│   ├── types/              # Shared TypeScript types
 │   └── remotion/
 │       ├── Root.tsx
 │       └── compositions/
@@ -216,6 +219,16 @@ npm run remotion:install-deps  # Install FFmpeg/FFprobe
 - **Styling**: Tailwind CSS, Framer Motion
 - **Feedback**: Agentation (official)
 - **Rendering**: Local (FFmpeg) + Cloud (Lambda/Cloud Run)
+- **3D**: Three.js via @remotion/three
+- **Animation**: Lottie via @remotion/lottie
+
+---
+
+## Requirements
+
+- Node.js 18+
+- npm 9+
+- FFmpeg (auto-installed via setup)
 
 ---
 
@@ -225,6 +238,4 @@ MIT
 
 ---
 
-Developed by **10x.in** 🚀
-
-[10x.in](https://10x.in)
+Developed by **[10x.in](https://10x.in)**

@@ -2,6 +2,7 @@
 node_modules/
 .pnp
 .pnp.js
+.yarn/
 
 # Build outputs
 .next/
@@ -23,9 +24,8 @@ output/**/*
 *.webm
 *.gif
 *.mov
-*.png
-*.jpg
-*.jpeg
+*.avi
+*.mkv
 
 # Environment
 .env
@@ -40,12 +40,14 @@ output/**/*
 *.swp
 *.swo
 .DS_Store
+Thumbs.db
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
 
 # Testing
 coverage/
@@ -57,7 +59,8 @@ next-env.d.ts
 
 # Misc
 *.pem
-Thumbs.db
+*.key
+*.crt
 
 # Keep example env
 !.env.example
@@ -65,3 +68,7 @@ Thumbs.db
 # Claude local settings (user-specific)
 .claude/settings.local.json
 .claude/skills/*/state/
+
+# Windows artifacts
+nul
+NUL
