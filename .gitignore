@@ -12,10 +12,20 @@ remotion-bundle/
 
 # Remotion
 .remotion/
+
+# Output directory (all generated content)
+output/**/*
+!output/.gitkeep
+!output/**/.gitkeep
+
+# Media files (in case generated outside output/)
 *.mp4
 *.webm
 *.gif
 *.mov
+*.png
+*.jpg
+*.jpeg
 
 # Environment
 .env

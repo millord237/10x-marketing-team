@@ -4,7 +4,26 @@
 
 ---
 
-## Quick Start
+## One-Line Setup (AFSSL)
+
+### macOS / Linux
+```bash
+curl -fsSL https://raw.githubusercontent.com/Anit-1to10x/10x-marketing-team/master/setup.sh | bash
+```
+
+### Windows (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/Anit-1to10x/10x-marketing-team/master/setup.ps1 | iex
+```
+
+### Using npx (All Platforms)
+```bash
+npx degit Anit-1to10x/10x-marketing-team my-project && cd my-project && npm run setup
+```
+
+---
+
+## Quick Start (If Already Cloned)
 
 ```bash
 # Full setup (installs dependencies + FFmpeg)
@@ -152,24 +171,23 @@ REMOTION_CLOUD_API_KEY=
 │   │   ├── 10x-render.md
 │   │   ├── 10x-remotion.md
 │   │   └── 10x-feedback.md
+│   ├── skills/             # Skill definitions
 │   ├── statusline.js       # Cross-platform statusline
 │   └── settings.json       # Permissions & statusline config
+├── output/                 # ALL generated content goes here
+│   ├── videos/             # Rendered videos
+│   ├── images/             # Generated images
+│   ├── exports/            # Agentation exports
+│   ├── compositions/       # Generated compositions
+│   └── assets/             # Temporary assets
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx      # AgentationProvider wrapper
-│   │   └── page.tsx
 │   ├── components/
-│   │   ├── landing/
-│   │   └── providers/
-│   │       └── AgentationProvider.tsx
 │   └── remotion/
 │       ├── Root.tsx
 │       └── compositions/
-│           ├── SocialMediaVideo.tsx
-│           ├── ProductDemo.tsx
-│           ├── AdCreative.tsx
-│           ├── TransitionShowcase.tsx
-│           └── ShapesDemo.tsx
+├── setup.sh                # One-line setup (macOS/Linux)
+├── setup.ps1               # One-line setup (Windows)
 ├── remotion.config.ts
 ├── package.json
 ├── .env.example
