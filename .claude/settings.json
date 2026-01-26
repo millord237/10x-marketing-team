@@ -1,0 +1,27 @@
+{
+  "$schema": "https://claude.ai/schemas/settings-v1.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(npx remotion *)",
+      "Bash(npx tsx *)",
+      "Bash(git *)",
+      "Bash(chmod *)",
+      "Bash(node *)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "AskUserQuestion"
+    ],
+    "deny": []
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node .claude/statusline.js",
+    "padding": 0
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://claude.ai/schemas/plugin-v1.json",
+  "name": "10x-marketing-team",
+  "version": "3.0.0",
+  "description": "GOD-LEVEL AI Marketing Agency - 20 specialized agents with Remotion & Agentation integration",
+  "author": {
+    "name": "10x.in",
+    "url": "https://10x.in"
+  },
+  "license": "MIT",
+  "icon": "fire",
+
+  "main": ".claude/skills/10x-marketing/SKILL.md",
+  "config": ".claude/skills/10x-marketing/skill.json",
+
+  "statusline": {
+    "enabled": true,
+    "format": "🔥 10x Marketing | {mode} | {task} | ${cost}",
+    "position": "right",
+    "components": {
+      "mode": {
+        "source": "state",
+        "key": "activeMode",
+        "default": "Ready"
+      },
+      "task": {
+        "source": "state",
+        "key": "currentTask",
+        "default": "Awaiting"
+      },
+      "cost": {
+        "source": "session",
+        "key": "cost",
+        "format": "currency",
+        "default": "0.00"
+      }
+    },
+    "branding": {
+      "prefix": "🔥",
+      "suffix": "| Developed by 10x.in",
+      "color": "#f97316"
+    }
+  },
+
+  "hooks": {
+    "SessionStart": {
+      "script": ".claude/skills/10x-marketing/hooks/on-session-start.sh",
+      "timeout": 5000
+    },
+    "UserPromptSubmit": {
+      "script": ".claude/skills/10x-marketing/hooks/on-user-prompt.sh",
+      "timeout": 3000
+    },
+    "PreToolUse": {
+      "Write|Edit": {
+        "script": ".claude/skills/10x-marketing/hooks/on-file-change.sh",
+        "timeout": 3000
+      },
+      "Bash": {
+        "script": ".claude/skills/10x-marketing/hooks/on-bash-command.sh",
+        "timeout": 3000
+      }
+    },
+    "PostToolUse": {
+      "Write|Edit": {
+        "script": ".claude/skills/10x-marketing/hooks/on-file-saved.sh",
+        "timeout": 3000
+      }
+    }
+  },
+
+  "commands": {
+    "/10x": "Activate full 20-agent marketing agency",
+    "/10x-setup": "Run setup wizard - install packages & configure API keys",
+    "/10x-copy": "Activate copywriting agents",
+    "/10x-design": "Activate design agents",
+    "/10x-video": "Activate video production with Remotion API",
+    "/10x-feedback": "Enter Agentation feedback mode",
+    "/10x-render": "Cloud render via Lambda/Cloud Run",
+    "/10x-remotion": "Access Remotion API reference",
+    "/10x-transitions": "Generate video transitions",
+    "/10x-shapes": "Generate SVG shapes",
+    "/10x-player": "Generate embeddable Player"
+  },
+
+  "capabilities": [
+    "cloud-video-rendering",
+    "ai-copywriting",
+    "landing-page-generation",
+    "visual-feedback",
+    "remotion-api",
+    "agentation-api"
+  ],
+
+  "requirements": {
+    "packages": [
+      "@remotion/lambda",
+      "@remotion/player",
+      "agentation"
+    ],
+    "environment": [
+      "REMOTION_SERVE_URL"
+    ]
+  },
+
+  "metadata": {
+    "category": "marketing",
+    "tags": ["marketing", "video", "remotion", "agentation", "ai-agents"],
+    "repository": "https://github.com/10x-marketing-team/10x-marketing-skill",
+    "documentation": "https://10x.in/docs"
+  }
+}

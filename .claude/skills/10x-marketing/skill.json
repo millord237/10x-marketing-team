@@ -1,0 +1,296 @@
+{
+  "$schema": "https://agentskills.io/schema/skill-v1.json",
+  "name": "10x-marketing-team",
+  "version": "3.0.0",
+  "description": "GOD-LEVEL AI Marketing Agency - 20 specialized agents with FULL Remotion & Agentation API integration for ads, copywriting, landing pages, and cloud video rendering",
+  "author": {
+    "name": "10x.in",
+    "url": "https://10x.in"
+  },
+  "license": "MIT",
+  "plugin": "../../../.claude-plugin",
+  "statusline": {
+    "enabled": true,
+    "icon": "🔥",
+    "format": "{icon} 10x Marketing | {mode} | {task} | ${cost}",
+    "developer": "Developed by 10x.in",
+    "stateFile": "state/statusline.json"
+  },
+  "tags": [
+    "marketing",
+    "agency",
+    "copywriting",
+    "landing-pages",
+    "video-ads",
+    "remotion",
+    "remotion-lambda",
+    "remotion-cloudrun",
+    "agentation",
+    "ai-agents",
+    "hooks",
+    "automation",
+    "cloud-rendering"
+  ],
+
+  "agents": {
+    "leadership": {
+      "ceo": { "name": "CEO", "role": "Strategy & client relations" },
+      "cmo": { "name": "CMO", "role": "Campaign strategy & KPIs" },
+      "creative_director": { "name": "Creative Director", "role": "Visual direction" }
+    },
+    "content": {
+      "head_of_copy": { "name": "Head of Copy", "role": "Messaging strategy" },
+      "ad_copywriter": { "name": "Ad Copywriter", "role": "Paid media copy" },
+      "email_specialist": { "name": "Email Specialist", "role": "Email sequences" },
+      "social_writer": { "name": "Social Media Writer", "role": "Organic social" },
+      "seo_writer": { "name": "SEO Content Writer", "role": "Search content" },
+      "ux_writer": { "name": "UX Writer", "role": "Interface copy" }
+    },
+    "design": {
+      "ui_designer": { "name": "UI Designer", "role": "Interface design" },
+      "landing_specialist": { "name": "Landing Page Specialist", "role": "Conversion design" },
+      "brand_designer": { "name": "Brand Designer", "role": "Visual identity" },
+      "motion_designer": { "name": "Motion Designer", "role": "Animation & Remotion" }
+    },
+    "video": {
+      "video_director": { "name": "Video Director", "role": "Video strategy" },
+      "script_writer": { "name": "Script Writer", "role": "Video scripts" },
+      "motion_artist": { "name": "Motion Graphics Artist", "role": "Remotion compositions" },
+      "editor": { "name": "Editor", "role": "Post-production" }
+    },
+    "technical": {
+      "frontend_dev": { "name": "Frontend Developer", "role": "Implementation" },
+      "analytics": { "name": "Analytics Specialist", "role": "Data & tracking" },
+      "qa": { "name": "QA Specialist", "role": "Testing & accessibility" }
+    }
+  },
+
+  "commands": {
+    "/10x": {
+      "description": "Activate full 20-agent marketing agency",
+      "agents": "all"
+    },
+    "/10x-setup": {
+      "description": "Run setup wizard - auto-install packages & configure API keys",
+      "mode": "setup",
+      "autoInstall": ["@remotion/lambda", "@remotion/player", "agentation"],
+      "requiredEnv": ["REMOTION_SERVE_URL"],
+      "optionalEnv": {
+        "lambda": ["REMOTION_AWS_ACCESS_KEY_ID", "REMOTION_AWS_SECRET_ACCESS_KEY", "REMOTION_AWS_REGION", "REMOTION_LAMBDA_FUNCTION_NAME"],
+        "cloudrun": ["REMOTION_GCP_PROJECT_ID", "REMOTION_GCP_REGION", "GOOGLE_APPLICATION_CREDENTIALS"],
+        "remotion-cloud": ["REMOTION_CLOUD_API_KEY"]
+      }
+    },
+    "/10x-copy": {
+      "description": "Activate copywriting team",
+      "agents": ["head_of_copy", "ad_copywriter", "email_specialist", "social_writer"]
+    },
+    "/10x-design": {
+      "description": "Activate design team",
+      "agents": ["creative_director", "ui_designer", "landing_specialist", "brand_designer"]
+    },
+    "/10x-video": {
+      "description": "Activate video production team with full Remotion API",
+      "agents": ["video_director", "script_writer", "motion_artist", "editor"],
+      "capabilities": ["remotion-compositions", "cloud-rendering", "transitions", "shapes"]
+    },
+    "/10x-feedback": {
+      "description": "Activate Agentation visual feedback superpowers",
+      "mode": "agentation",
+      "capabilities": ["annotation", "ai-analysis", "code-fix", "export"]
+    },
+    "/10x-render": {
+      "description": "Render video via Remotion Lambda/Cloud Run (no local setup)",
+      "mode": "cloud-render",
+      "providers": ["lambda", "cloudrun"]
+    },
+    "/10x-remotion": {
+      "description": "Access full Remotion API reference and generate compositions",
+      "mode": "remotion-api",
+      "reference": "remotion-api-reference.md"
+    },
+    "/10x-transitions": {
+      "description": "Generate video transitions (slide, fade, wipe, flip)",
+      "mode": "transitions",
+      "effects": ["slide", "fade", "wipe", "flip"]
+    },
+    "/10x-shapes": {
+      "description": "Generate SVG shapes for videos (rect, circle, triangle, star)",
+      "mode": "shapes",
+      "shapes": ["rect", "circle", "triangle", "ellipse", "star", "polygon", "pie"]
+    },
+    "/10x-player": {
+      "description": "Generate embeddable Remotion Player component",
+      "mode": "player"
+    }
+  },
+
+  "capabilities": {
+    "copywriting": {
+      "frameworks": ["PAS", "AIDA", "4Us", "BAB", "QUEST", "STAR"],
+      "platforms": ["meta", "google", "linkedin", "tiktok", "email", "social"]
+    },
+    "landing_pages": {
+      "templates": ["saas", "leadgen", "product-launch", "minimal"],
+      "stack": ["next.js", "react", "tailwind", "framer-motion"]
+    },
+    "video_production": {
+      "formats": {
+        "social": { "ratio": "9:16", "resolution": "1080x1920", "duration": "15-60s" },
+        "demo": { "ratio": "16:9", "resolution": "1920x1080", "duration": "60-180s" },
+        "ad": { "ratio": "1:1", "resolution": "1080x1080", "duration": "15-30s" },
+        "story": { "ratio": "9:16", "resolution": "1080x1920", "duration": "15s" }
+      },
+      "engine": "remotion",
+      "version": "4.0+"
+    },
+    "remotion_api": {
+      "components": [
+        "Composition", "Sequence", "AbsoluteFill", "Series", "Loop",
+        "Folder", "Still", "Img", "Video", "OffthreadVideo", "Audio", "IFrame"
+      ],
+      "hooks": [
+        "useCurrentFrame", "useVideoConfig"
+      ],
+      "functions": [
+        "interpolate", "spring", "measureSpring", "staticFile",
+        "random", "delayRender", "continueRender", "prefetch", "getInputProps"
+      ],
+      "easing": [
+        "linear", "ease", "quad", "cubic", "poly", "bezier",
+        "back", "elastic", "circle", "sin", "exp", "bounce",
+        "in", "out", "inOut", "step0", "step1"
+      ],
+      "packages": {
+        "@remotion/transitions": {
+          "components": ["TransitionSeries"],
+          "timing": ["linearTiming", "springTiming"],
+          "presentations": ["slide", "fade", "wipe", "flip"]
+        },
+        "@remotion/shapes": {
+          "components": ["Rect", "Circle", "Triangle", "Ellipse", "Star", "Polygon", "Pie"]
+        },
+        "@remotion/paths": {
+          "functions": ["getLength", "getPointAtLength", "evolvePath", "interpolatePath"]
+        },
+        "@remotion/gif": {
+          "components": ["Gif"]
+        },
+        "@remotion/noise": {
+          "functions": ["noise2D", "noise3D", "noise4D"]
+        },
+        "@remotion/motion-blur": {
+          "components": ["Trail", "MotionBlur"]
+        },
+        "@remotion/player": {
+          "components": ["Player"],
+          "methods": ["play", "pause", "toggle", "seekTo", "getCurrentFrame", "mute", "unmute"],
+          "events": ["play", "pause", "ended", "seeked", "timeupdate", "frameupdate"]
+        }
+      },
+      "cloud_rendering": {
+        "lambda": {
+          "provider": "AWS",
+          "functions": ["renderMediaOnLambda", "getRenderProgress"],
+          "regions": ["us-east-1", "us-west-2", "eu-west-1", "ap-northeast-1"]
+        },
+        "cloudrun": {
+          "provider": "Google Cloud",
+          "functions": ["renderMediaOnCloudrun"],
+          "regions": ["us-central1", "us-east1", "europe-west1"]
+        }
+      }
+    },
+    "agentation_api": {
+      "callbacks": [
+        "onAnnotationAdd", "onAnnotationUpdate", "onAnnotationDelete",
+        "onAnnotationsClear", "onCopy"
+      ],
+      "annotation_fields": [
+        "id", "element", "selector", "comment", "selectedText",
+        "x", "y", "viewportX", "viewportY", "timestamp", "boundingBox",
+        "nearbyElements", "computedStyles", "accessibilityInfo"
+      ],
+      "features": ["annotation", "ai-analysis", "code-fix", "priority-triage", "agent-routing", "export"],
+      "integrations": ["database-sync", "analytics", "webhooks", "mcp-server", "claude-code"]
+    },
+    "visual_feedback": {
+      "tool": "agentation",
+      "features": ["annotation", "ai-analysis", "code-fix", "priority-triage"]
+    }
+  },
+
+  "api_references": {
+    "remotion": {
+      "file": "remotion-api-reference.md",
+      "source": "https://remotion.dev/docs",
+      "version": "4.0+"
+    },
+    "agentation": {
+      "file": "agentation-api-reference.md",
+      "source": "https://agentation.dev/api",
+      "version": "1.0+"
+    }
+  },
+
+  "files": {
+    "core": ["SKILL.md", "skill.json", "reference.md", "env-config.md"],
+    "quick_start": [
+      "quick-start-remotion.md",
+      "quick-start-agentation.md"
+    ],
+    "api_docs": [
+      "remotion-api-reference.md",
+      "agentation-api-reference.md"
+    ],
+    "hooks": [
+      "hooks/on-session-start.sh",
+      "hooks/on-user-prompt.sh",
+      "hooks/on-file-change.sh",
+      "hooks/on-file-saved.sh",
+      "hooks/on-bash-command.sh"
+    ],
+    "templates": [
+      "templates/hero.tsx",
+      "templates/video-composition.tsx",
+      "templates/feedback-handler.ts"
+    ],
+    "examples": [
+      "examples/ad-copy.md",
+      "examples/landing-page.md",
+      "examples/video-scripts.md"
+    ]
+  },
+
+  "environment": {
+    "required": [
+      "REMOTION_SERVE_URL"
+    ],
+    "lambda": [
+      "REMOTION_AWS_ACCESS_KEY_ID",
+      "REMOTION_AWS_SECRET_ACCESS_KEY",
+      "REMOTION_AWS_REGION",
+      "REMOTION_LAMBDA_FUNCTION_NAME"
+    ],
+    "cloudrun": [
+      "REMOTION_GCP_PROJECT_ID",
+      "REMOTION_GCP_REGION",
+      "GOOGLE_APPLICATION_CREDENTIALS"
+    ],
+    "optional": [
+      "ANTHROPIC_API_KEY",
+      "REMOTION_CLOUD_API_KEY"
+    ]
+  },
+
+  "requirements": {
+    "tools": ["bash", "read", "write", "edit", "glob", "grep", "web_fetch"],
+    "local_setup": "NOT REQUIRED - All rendering via cloud APIs",
+    "cloud_providers": ["aws-lambda", "gcp-cloudrun", "remotion-cloud"],
+    "client_packages": {
+      "@remotion/lambda": "^4.0.0 (client only)",
+      "@remotion/cloudrun": "^4.0.0 (client only)",
+      "agentation": "^1.0.0"
+    }
+  }
+}
