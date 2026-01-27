@@ -4,13 +4,14 @@
   "description": "20 AI agents for video creation, copywriting, landing pages, and ads with Remotion Studio and Agentation",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3001",
+    "dev:all": "concurrently \"npm run remotion:studio\" \"npm run dev\"",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3001",
     "lint": "next lint",
     "setup": "npm install && npm run remotion:install-deps",
-    "remotion:studio": "remotion studio src/remotion/index.ts",
-    "remotion:preview": "remotion preview src/remotion/index.ts",
+    "remotion:studio": "remotion studio src/remotion/index.ts --port 3000",
+    "remotion:preview": "remotion preview src/remotion/index.ts --port 3000",
     "remotion:render": "remotion render src/remotion/index.ts",
     "remotion:render:local": "remotion render src/remotion/index.ts --codec=h264",
     "remotion:build": "remotion bundle src/remotion/index.ts --out-dir=remotion-bundle",
@@ -57,7 +58,8 @@
     "@types/three": "0.160.0",
     "typescript": "5.7.3",
     "eslint": "8.57.1",
-    "eslint-config-next": "14.2.21"
+    "eslint-config-next": "14.2.21",
+    "concurrently": "^9.1.0"
   },
   "engines": {
     "node": ">=18.0.0"
