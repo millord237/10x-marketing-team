@@ -1,0 +1,26 @@
+{
+  "$schema": "./mcp-servers.schema.json",
+  "servers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./output"],
+      "description": "Local filesystem access for generated videos and assets",
+      "enabled": true
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": ""
+      },
+      "description": "GitHub integration for repos, issues, PRs",
+      "enabled": false
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "description": "HTTP fetch for external APIs and data sources",
+      "enabled": false
+    }
+  }
+}
