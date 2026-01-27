@@ -7,9 +7,20 @@ import {
   generateContentSuggestions,
 } from '@/skills/video-generator';
 
+const MAX_VIDEO_BODY_SIZE = 64 * 1024; // 64KB is generous for video config
+
 // POST /api/video - Generate video configuration
 export async function POST(request: NextRequest) {
   try {
+    // Reject oversized payloads
+    const contentLength = parseInt(request.headers.get('content-length') || '0');
+    if (contentLength > MAX_VIDEO_BODY_SIZE) {
+      return NextResponse.json(
+        { error: 'Request body too large' },
+        { status: 413 }
+      );
+    }
+
     const body = await request.json();
     const { type } = body;
 

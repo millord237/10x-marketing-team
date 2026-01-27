@@ -6,11 +6,27 @@ import type { Annotation, RedesignTask, ClaudeCodeExport } from '@/types/agentat
 // Re-export types for consumers
 export type { Annotation, RedesignTask, ClaudeCodeExport };
 
+// Limits to prevent DoS and context flooding
+const MAX_ANNOTATIONS = 50;
+const MAX_COMMENT_LENGTH = 500;
+const MAX_ELEMENT_LENGTH = 200;
+
+// Sanitize user-provided strings to prevent XSS and prompt injection
+function sanitizeText(text: string, maxLength: number): string {
+  return text
+    .replace(/[<>]/g, '') // strip HTML angle brackets
+    .replace(/\0/g, '')   // strip null bytes
+    .slice(0, maxLength);
+}
+
 // Analyze annotations and generate redesign tasks
 export function analyzeAnnotations(annotations: Annotation[]): RedesignTask[] {
   const tasks: RedesignTask[] = [];
 
-  for (const annotation of annotations) {
+  // Cap annotations to prevent context flooding
+  const limited = annotations.slice(0, MAX_ANNOTATIONS);
+
+  for (const annotation of limited) {
     const task = analyzeAnnotation(annotation);
     if (task) {
       tasks.push(task);
@@ -25,7 +41,10 @@ export function analyzeAnnotations(annotations: Annotation[]): RedesignTask[] {
 }
 
 function analyzeAnnotation(annotation: Annotation): RedesignTask | null {
-  const comment = annotation.comment.toLowerCase();
+  // Sanitize user-provided fields before processing
+  const safeComment = sanitizeText(annotation.comment, MAX_COMMENT_LENGTH);
+  const safeElement = sanitizeText(annotation.element, MAX_ELEMENT_LENGTH);
+  const comment = safeComment.toLowerCase();
   const id = `task-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
 
   // Detect issue category from comment
@@ -71,15 +90,18 @@ function analyzeAnnotation(annotation: Annotation): RedesignTask | null {
     priority = 'medium';
   }
 
+  // Use sanitized annotation for output
+  const sanitizedAnnotation = { ...annotation, element: safeElement, comment: safeComment };
+
   return {
     id,
     type,
     priority,
     category,
-    selector: annotation.element,
-    currentState: annotation.comment,
-    desiredState: generateDesiredState(annotation.comment, category),
-    suggestedFix: generateSuggestedFix(annotation, category),
+    selector: safeElement,
+    currentState: safeComment,
+    desiredState: generateDesiredState(safeComment, category),
+    suggestedFix: generateSuggestedFix(sanitizedAnnotation, category),
     relatedAnnotations: [annotation.id],
   };
 }

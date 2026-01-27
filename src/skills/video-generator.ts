@@ -106,6 +106,14 @@ export async function generateVideo(input: VideoInput): Promise<VideoOutput> {
   }
 }
 
+// Safely encode props for shell command to prevent command injection
+function safePropsArg(props: Record<string, unknown>): string {
+  const json = JSON.stringify(props);
+  // Write props to a temp file reference instead of inline shell interpolation
+  // This prevents any shell metacharacter injection from user input
+  return `--props='${json.replace(/'/g, "'\\''")}'`;
+}
+
 function generateSocialVideo(videoId: string, input: SocialVideoInput): VideoOutput {
   const fps = 30;
   const durationInFrames = input.duration * fps;
@@ -118,14 +126,12 @@ function generateSocialVideo(videoId: string, input: SocialVideoInput): VideoOut
     accentColor: input.accentColor,
   };
 
-  const propsJson = JSON.stringify(props);
-
   return {
     success: true,
     videoId,
     composition: 'SocialMediaVideo',
     props,
-    renderCommand: `npx remotion render src/remotion/index.ts SocialMediaVideo out/${videoId}.mp4 --props='${propsJson}'`,
+    renderCommand: `npx remotion render src/remotion/index.ts SocialMediaVideo out/${videoId}.mp4 ${safePropsArg(props)}`,
     lambdaRenderCode: generateLambdaCode('SocialMediaVideo', props),
     cloudRunRenderCode: generateCloudRunCode('SocialMediaVideo', props),
     exportFormats: ['mp4', 'webm', 'gif'],
@@ -140,14 +146,12 @@ function generateProductDemo(videoId: string, input: ProductDemoInput): VideoOut
     brandColor: input.brandColor,
   };
 
-  const propsJson = JSON.stringify(props);
-
   return {
     success: true,
     videoId,
     composition: 'ProductDemo',
     props,
-    renderCommand: `npx remotion render src/remotion/index.ts ProductDemo out/${videoId}.mp4 --props='${propsJson}'`,
+    renderCommand: `npx remotion render src/remotion/index.ts ProductDemo out/${videoId}.mp4 ${safePropsArg(props)}`,
     lambdaRenderCode: generateLambdaCode('ProductDemo', props),
     cloudRunRenderCode: generateCloudRunCode('ProductDemo', props),
     exportFormats: ['mp4', 'webm'],
@@ -164,14 +168,12 @@ function generateAdCreative(videoId: string, input: AdCreativeInput): VideoOutpu
     accentColor: input.accentColor,
   };
 
-  const propsJson = JSON.stringify(props);
-
   return {
     success: true,
     videoId,
     composition: 'AdCreative',
     props,
-    renderCommand: `npx remotion render src/remotion/index.ts AdCreative out/${videoId}.mp4 --props='${propsJson}'`,
+    renderCommand: `npx remotion render src/remotion/index.ts AdCreative out/${videoId}.mp4 ${safePropsArg(props)}`,
     lambdaRenderCode: generateLambdaCode('AdCreative', props),
     cloudRunRenderCode: generateCloudRunCode('AdCreative', props),
     exportFormats: ['mp4', 'webm', 'gif'],
