@@ -1,16 +1,10 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence } from 'remotion';
+import type { ProductDemoProps } from '../schemas';
 
 interface Feature {
   title: string;
   description: string;
-}
-
-interface ProductDemoProps {
-  productName: string;
-  tagline: string;
-  features: Feature[];
-  brandColor: string;
 }
 
 export const ProductDemo: React.FC<ProductDemoProps> = ({
@@ -18,19 +12,25 @@ export const ProductDemo: React.FC<ProductDemoProps> = ({
   tagline,
   features,
   brandColor,
+  productNameFontSize,
+  featureTitleFontSize,
+  introSeconds,
+  featureSeconds,
+  outroSeconds,
+  gridOpacity,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  // Calculate section timing
-  const introEnd = 180; // 6 seconds
-  const featuresDuration = 360; // 12 seconds per feature
-  const outroStart = durationInFrames - 180;
+  // Calculate section timing from props
+  const introEnd = introSeconds * fps;
+  const featuresDuration = featureSeconds * fps;
+  const outroStart = durationInFrames - outroSeconds * fps;
 
   return (
     <AbsoluteFill style={{ background: '#0a0a14' }}>
       {/* Animated Grid Background */}
-      <AbsoluteFill style={{ overflow: 'hidden', opacity: 0.3 }}>
+      <AbsoluteFill style={{ overflow: 'hidden', opacity: gridOpacity }}>
         {[...Array(10)].map((_, i) => (
           <div
             key={`h-${i}`}
@@ -69,6 +69,7 @@ export const ProductDemo: React.FC<ProductDemoProps> = ({
           brandColor={brandColor}
           frame={frame}
           fps={fps}
+          productNameFontSize={productNameFontSize}
         />
       </Sequence>
 
@@ -85,12 +86,13 @@ export const ProductDemo: React.FC<ProductDemoProps> = ({
             brandColor={brandColor}
             frame={frame - (introEnd + index * featuresDuration)}
             fps={fps}
+            featureTitleFontSize={featureTitleFontSize}
           />
         </Sequence>
       ))}
 
       {/* Outro Section */}
-      <Sequence from={outroStart} durationInFrames={180}>
+      <Sequence from={outroStart} durationInFrames={outroSeconds * fps}>
         <OutroSection
           productName={productName}
           brandColor={brandColor}
@@ -109,7 +111,8 @@ const IntroSection: React.FC<{
   brandColor: string;
   frame: number;
   fps: number;
-}> = ({ productName, tagline, brandColor, frame, fps }) => {
+  productNameFontSize: number;
+}> = ({ productName, tagline, brandColor, frame, fps, productNameFontSize }) => {
   const logoScale = spring({ frame, fps, from: 0, to: 1, durationInFrames: 30 });
   const taglineOpacity = interpolate(frame, [45, 75], [0, 1], { extrapolateRight: 'clamp' });
 
@@ -120,7 +123,6 @@ const IntroSection: React.FC<{
         alignItems: 'center',
       }}
     >
-      {/* Product Name */}
       <div
         style={{
           transform: `scale(${logoScale})`,
@@ -129,7 +131,7 @@ const IntroSection: React.FC<{
       >
         <h1
           style={{
-            fontSize: 120,
+            fontSize: productNameFontSize,
             fontWeight: 800,
             background: `linear-gradient(135deg, ${brandColor}, #fff)`,
             WebkitBackgroundClip: 'text',
@@ -172,7 +174,8 @@ const FeatureSection: React.FC<{
   brandColor: string;
   frame: number;
   fps: number;
-}> = ({ feature, index, brandColor, frame, fps }) => {
+  featureTitleFontSize: number;
+}> = ({ feature, index, brandColor, frame, fps, featureTitleFontSize }) => {
   const entrance = spring({ frame, fps, from: 0, to: 1, durationInFrames: 30 });
   const slideIn = interpolate(frame, [0, 30], [100, 0], { extrapolateRight: 'clamp' });
 
@@ -221,7 +224,7 @@ const FeatureSection: React.FC<{
       >
         <h2
           style={{
-            fontSize: 72,
+            fontSize: featureTitleFontSize,
             fontWeight: 700,
             color: 'white',
             marginBottom: 24,

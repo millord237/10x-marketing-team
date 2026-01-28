@@ -2,13 +2,9 @@ import React from 'react';
 import { AbsoluteFill, useCurrentFrame, spring, useVideoConfig, interpolate } from 'remotion';
 import { Rect, Circle, Triangle, Star, Polygon } from '@remotion/shapes';
 
-type ShapeType = 'rect' | 'circle' | 'triangle' | 'star' | 'polygon';
+import type { ShapesDemoProps } from '../schemas';
 
-interface ShapesDemoProps {
-  title: string;
-  shapes: ShapeType[];
-  brandColor: string;
-}
+type ShapeType = 'rect' | 'circle' | 'triangle' | 'star' | 'polygon';
 
 // Colors for different shapes
 const shapeColors = [
@@ -26,7 +22,8 @@ const RenderShape: React.FC<{
   frame: number;
   fps: number;
   brandColor: string;
-}> = ({ type, index, frame, fps, brandColor }) => {
+  shapeSize: number;
+}> = ({ type, index, frame, fps, brandColor, shapeSize }) => {
   const delay = index * 10;
   const adjustedFrame = Math.max(0, frame - delay);
 
@@ -51,8 +48,8 @@ const RenderShape: React.FC<{
       return (
         <div style={commonStyle}>
           <Rect
-            width={120}
-            height={120}
+            width={shapeSize}
+            height={shapeSize}
             fill={color}
             cornerRadius={16}
           />
@@ -62,7 +59,7 @@ const RenderShape: React.FC<{
       return (
         <div style={commonStyle}>
           <Circle
-            radius={60}
+            radius={shapeSize / 2}
             fill={color}
           />
         </div>
@@ -71,7 +68,7 @@ const RenderShape: React.FC<{
       return (
         <div style={commonStyle}>
           <Triangle
-            length={120}
+            length={shapeSize}
             fill={color}
             direction="up"
             cornerRadius={8}
@@ -83,8 +80,8 @@ const RenderShape: React.FC<{
         <div style={commonStyle}>
           <Star
             points={5}
-            outerRadius={60}
-            innerRadius={30}
+            outerRadius={shapeSize / 2}
+            innerRadius={shapeSize / 4}
             fill={color}
             cornerRadius={4}
           />
@@ -95,7 +92,7 @@ const RenderShape: React.FC<{
         <div style={commonStyle}>
           <Polygon
             points={6}
-            radius={60}
+            radius={shapeSize / 2}
             fill={color}
             cornerRadius={8}
           />
@@ -110,6 +107,9 @@ export const ShapesDemo: React.FC<ShapesDemoProps> = ({
   title,
   shapes,
   brandColor,
+  titleFontSize,
+  shapeSize,
+  shapeGap,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -171,7 +171,7 @@ export const ShapesDemo: React.FC<ShapesDemoProps> = ({
       >
         <h1
           style={{
-            fontSize: 64,
+            fontSize: titleFontSize,
             fontWeight: 800,
             color: 'white',
             margin: 0,
@@ -199,7 +199,7 @@ export const ShapesDemo: React.FC<ShapesDemoProps> = ({
           left: '50%',
           transform: 'translate(-50%, -30%)',
           display: 'flex',
-          gap: 80,
+          gap: shapeGap,
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -220,6 +220,7 @@ export const ShapesDemo: React.FC<ShapesDemoProps> = ({
               frame={frame}
               fps={fps}
               brandColor={brandColor}
+              shapeSize={shapeSize}
             />
             <span
               style={{

@@ -1,64 +1,21 @@
 import React from 'react';
 import { Composition, Folder } from 'remotion';
-import { z } from 'zod';
 import { SocialMediaVideo } from './compositions/SocialMediaVideo';
 import { ProductDemo } from './compositions/ProductDemo';
 import { AdCreative } from './compositions/AdCreative';
 import { TransitionShowcase } from './compositions/TransitionShowcase';
 import { ShapesDemo } from './compositions/ShapesDemo';
-
-// =============================================================================
-// PROP SCHEMAS - Type-safe props with Zod validation
-// =============================================================================
-
-const socialMediaVideoSchema = z.object({
-  headline: z.string(),
-  subheadline: z.string(),
-  cta: z.string(),
-  brandColor: z.string(),
-  accentColor: z.string(),
-});
-
-const productDemoSchema = z.object({
-  productName: z.string(),
-  tagline: z.string(),
-  features: z.array(
-    z.object({
-      title: z.string(),
-      description: z.string(),
-    })
-  ),
-  brandColor: z.string(),
-});
-
-const adCreativeSchema = z.object({
-  headline: z.string(),
-  benefit: z.string(),
-  cta: z.string(),
-  urgency: z.string(),
-  brandColor: z.string(),
-  accentColor: z.string(),
-});
-
-const transitionShowcaseSchema = z.object({
-  scenes: z.array(
-    z.object({
-      title: z.string(),
-      subtitle: z.string(),
-      backgroundColor: z.string(),
-    })
-  ),
-  transitionType: z.enum(['slide', 'fade', 'wipe', 'flip']),
-});
-
-const shapesDemoSchema = z.object({
-  title: z.string(),
-  shapes: z.array(z.enum(['rect', 'circle', 'triangle', 'star', 'polygon'])),
-  brandColor: z.string(),
-});
+import {
+  socialMediaVideoSchema,
+  productDemoSchema,
+  adCreativeSchema,
+  transitionShowcaseSchema,
+  shapesDemoSchema,
+} from './schemas';
 
 // =============================================================================
 // ROOT COMPONENT - All compositions registered here
+// All defaultProps are inlined so Remotion Studio can save edits back to code.
 // =============================================================================
 
 export const RemotionRoot: React.FC = () => {
@@ -83,6 +40,12 @@ export const RemotionRoot: React.FC = () => {
           cta: 'Link in bio',
           brandColor: '#0ea5e9',
           accentColor: '#d946ef',
+          headlineFontSize: 72,
+          subheadlineFontSize: 36,
+          ctaFontSize: 32,
+          particleCount: 20,
+          hookDurationFrames: 150,
+          gradientAngle: 135,
         }}
       />
 
@@ -104,6 +67,12 @@ export const RemotionRoot: React.FC = () => {
             { title: 'Export', description: '4K quality in any format' },
           ],
           brandColor: '#0ea5e9',
+          productNameFontSize: 120,
+          featureTitleFontSize: 72,
+          introSeconds: 6,
+          featureSeconds: 12,
+          outroSeconds: 6,
+          gridOpacity: 0.3,
         }}
       />
 
@@ -123,6 +92,12 @@ export const RemotionRoot: React.FC = () => {
           urgency: 'Limited time offer',
           brandColor: '#0ea5e9',
           accentColor: '#d946ef',
+          headlineFontSize: 64,
+          benefitFontSize: 48,
+          ctaFontSize: 48,
+          hookSeconds: 6,
+          benefitSeconds: 12,
+          ctaStartSeconds: 20,
         }}
       />
 
@@ -159,6 +134,9 @@ export const RemotionRoot: React.FC = () => {
               },
             ],
             transitionType: 'slide',
+            sceneDurationFrames: 80,
+            transitionDurationFrames: 20,
+            titleFontSize: 80,
           }}
         />
 
@@ -175,6 +153,9 @@ export const RemotionRoot: React.FC = () => {
             title: 'Animated Shapes',
             shapes: ['rect', 'circle', 'triangle', 'star', 'polygon'],
             brandColor: '#0ea5e9',
+            titleFontSize: 64,
+            shapeSize: 120,
+            shapeGap: 80,
           }}
         />
       </Folder>

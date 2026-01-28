@@ -1,13 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence } from 'remotion';
-
-interface SocialMediaVideoProps {
-  headline: string;
-  subheadline: string;
-  cta: string;
-  brandColor: string;
-  accentColor: string;
-}
+import type { SocialMediaVideoProps } from '../schemas';
 
 export const SocialMediaVideo: React.FC<SocialMediaVideoProps> = ({
   headline,
@@ -15,6 +8,12 @@ export const SocialMediaVideo: React.FC<SocialMediaVideoProps> = ({
   cta,
   brandColor,
   accentColor,
+  headlineFontSize,
+  subheadlineFontSize,
+  ctaFontSize,
+  particleCount,
+  hookDurationFrames,
+  gradientAngle,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -41,14 +40,14 @@ export const SocialMediaVideo: React.FC<SocialMediaVideoProps> = ({
       {/* Animated Gradient Background */}
       <AbsoluteFill
         style={{
-          background: `linear-gradient(135deg, ${brandColor} 0%, ${accentColor} 100%)`,
+          background: `linear-gradient(${gradientAngle}deg, ${brandColor} 0%, ${accentColor} 100%)`,
           transform: `scale(${pulse})`,
         }}
       />
 
       {/* Floating Particles */}
       <AbsoluteFill style={{ overflow: 'hidden' }}>
-        {[...Array(20)].map((_, i) => {
+        {[...Array(particleCount)].map((_, i) => {
           const yOffset = interpolate(
             (frame + i * 30) % 200,
             [0, 200],
@@ -75,7 +74,7 @@ export const SocialMediaVideo: React.FC<SocialMediaVideoProps> = ({
       </AbsoluteFill>
 
       {/* Hook Section */}
-      <Sequence from={0} durationInFrames={150}>
+      <Sequence from={0} durationInFrames={hookDurationFrames}>
         <AbsoluteFill
           style={{
             justifyContent: 'center',
@@ -93,7 +92,7 @@ export const SocialMediaVideo: React.FC<SocialMediaVideoProps> = ({
           >
             <h1
               style={{
-                fontSize: 72,
+                fontSize: headlineFontSize,
                 fontWeight: 800,
                 color: 'white',
                 textShadow: '0 4px 30px rgba(0,0,0,0.3)',
@@ -126,7 +125,7 @@ export const SocialMediaVideo: React.FC<SocialMediaVideoProps> = ({
             {/* Subheadline */}
             <p
               style={{
-                fontSize: 36,
+                fontSize: subheadlineFontSize,
                 color: 'rgba(255,255,255,0.9)',
                 opacity: subheadlineProgress,
                 transform: `translateY(${(1 - subheadlineProgress) * 30}px)`,
@@ -159,7 +158,7 @@ export const SocialMediaVideo: React.FC<SocialMediaVideoProps> = ({
           >
             <span
               style={{
-                fontSize: 32,
+                fontSize: ctaFontSize,
                 fontWeight: 700,
                 background: `linear-gradient(90deg, ${brandColor}, ${accentColor})`,
                 WebkitBackgroundClip: 'text',

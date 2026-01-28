@@ -126,7 +126,7 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center gap-3">
             <a
-              href="http://localhost:3000"
+              href={process.env.NEXT_PUBLIC_REMOTION_STUDIO_URL || 'http://localhost:3000'}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-secondary !px-4 !py-2 text-sm"

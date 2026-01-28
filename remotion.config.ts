@@ -12,8 +12,8 @@ import { Config } from '@remotion/cli/config';
 Config.setVideoImageFormat('jpeg');
 Config.setOverwriteOutput(true);
 
-// Studio port (default: 3000, using 3333 to avoid conflict with Next.js)
-Config.setStudioPort(3333);
+// Studio port (3000 — Next.js runs on 3001, no conflict)
+Config.setStudioPort(3000);
 
 // Public directory for static assets
 Config.setPublicDir('public');

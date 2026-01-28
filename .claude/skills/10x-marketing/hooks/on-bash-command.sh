@@ -81,7 +81,7 @@ fi
 
 # Development server
 if [[ "$COMMAND" == "npm run dev"* ]] || [[ "$COMMAND" == "npm start"* ]]; then
-  CONTEXT="🚀 PREVIEW: Starting development server at http://localhost:3000"
+  CONTEXT="🚀 PREVIEW: Starting development server at http://localhost:3001"
 fi
 
 # Build

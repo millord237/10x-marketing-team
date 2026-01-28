@@ -1,6 +1,6 @@
 /**
  * Shared Agentation Types
- * Used by both AgentationFeedback component and agentation-claude integration
+ * Used by agentation-claude integration
  */
 
 export interface Annotation {

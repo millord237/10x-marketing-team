@@ -6,19 +6,16 @@ import { fade } from '@remotion/transitions/fade';
 import { wipe } from '@remotion/transitions/wipe';
 import { flip } from '@remotion/transitions/flip';
 
+import type { TransitionShowcaseProps } from '../schemas';
+
 interface Scene {
   title: string;
   subtitle: string;
   backgroundColor: string;
 }
 
-interface TransitionShowcaseProps {
-  scenes: Scene[];
-  transitionType: 'slide' | 'fade' | 'wipe' | 'flip';
-}
-
 // Individual scene component
-const SceneContent: React.FC<{ scene: Scene }> = ({ scene }) => {
+const SceneContent: React.FC<{ scene: Scene; titleFontSize: number }> = ({ scene, titleFontSize }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -55,7 +52,7 @@ const SceneContent: React.FC<{ scene: Scene }> = ({ scene }) => {
       >
         <h1
           style={{
-            fontSize: 80,
+            fontSize: titleFontSize,
             fontWeight: 800,
             color: 'white',
             margin: 0,
@@ -78,43 +75,59 @@ const SceneContent: React.FC<{ scene: Scene }> = ({ scene }) => {
   );
 };
 
-// Get presentation based on transition type
-const getPresentation = (type: TransitionShowcaseProps['transitionType']) => {
-  switch (type) {
-    case 'slide':
-      return slide({ direction: 'from-right' });
-    case 'fade':
-      return fade();
-    case 'wipe':
-      return wipe({ direction: 'from-left' });
-    case 'flip':
-      return flip({ direction: 'from-left' });
-    default:
-      return slide({ direction: 'from-right' });
-  }
-};
-
 export const TransitionShowcase: React.FC<TransitionShowcaseProps> = ({
   scenes,
   transitionType,
+  sceneDurationFrames,
+  transitionDurationFrames,
+  titleFontSize,
 }) => {
-  const presentation = getPresentation(transitionType);
-  const sceneDuration = 80; // frames per scene
-  const transitionDuration = 20; // frames per transition
+  const sceneDuration = sceneDurationFrames;
+  const transitionDuration = transitionDurationFrames;
+
+  // Build presentation inline to preserve correct generic types
+  const renderTransition = () => {
+    switch (transitionType) {
+      case 'fade':
+        return (
+          <TransitionSeries.Transition
+            presentation={fade()}
+            timing={linearTiming({ durationInFrames: transitionDuration })}
+          />
+        );
+      case 'wipe':
+        return (
+          <TransitionSeries.Transition
+            presentation={wipe({ direction: 'from-left' })}
+            timing={linearTiming({ durationInFrames: transitionDuration })}
+          />
+        );
+      case 'flip':
+        return (
+          <TransitionSeries.Transition
+            presentation={flip({ direction: 'from-left' })}
+            timing={linearTiming({ durationInFrames: transitionDuration })}
+          />
+        );
+      case 'slide':
+      default:
+        return (
+          <TransitionSeries.Transition
+            presentation={slide({ direction: 'from-right' })}
+            timing={linearTiming({ durationInFrames: transitionDuration })}
+          />
+        );
+    }
+  };
 
   return (
     <TransitionSeries>
       {scenes.map((scene, index) => (
         <React.Fragment key={index}>
           <TransitionSeries.Sequence durationInFrames={sceneDuration}>
-            <SceneContent scene={scene} />
+            <SceneContent scene={scene} titleFontSize={titleFontSize} />
           </TransitionSeries.Sequence>
-          {index < scenes.length - 1 && (
-            <TransitionSeries.Transition
-              presentation={presentation}
-              timing={linearTiming({ durationInFrames: transitionDuration })}
-            />
-          )}
+          {index < scenes.length - 1 && renderTransition()}
         </React.Fragment>
       ))}
     </TransitionSeries>

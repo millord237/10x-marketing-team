@@ -41,10 +41,16 @@ HAS_REMOTION_LAMBDA="false"
 HAS_AGENTATION="false"
 [ -f "$CWD/node_modules/agentation/package.json" ] && HAS_AGENTATION="true"
 
-# Determine initial mode
+# Check for core Remotion (required)
+HAS_REMOTION="false"
+[ -f "$CWD/node_modules/remotion/package.json" ] && HAS_REMOTION="true"
+
+# Determine initial mode — only core packages are required, Lambda is optional
 INITIAL_MODE="Ready"
-if [ "$HAS_ENV" = "false" ] || [ "$HAS_REMOTION_LAMBDA" = "false" ]; then
-  INITIAL_MODE="Setup Required"
+if [ "$HAS_PACKAGE_JSON" = "false" ] || [ "$HAS_REMOTION" = "false" ]; then
+  INITIAL_MODE="Setup Required — run: npm run setup"
+elif [ "$HAS_ENV" = "false" ]; then
+  INITIAL_MODE="Config Needed — run: /10x-setup"
 fi
 
 # Update statusline state
@@ -122,11 +128,11 @@ jq -n \
         "hasEnvFile": ($has_env == "true"),
         "hasRemotionLambda": ($has_remotion == "true"),
         "hasAgentation": ($has_agentation == "true"),
-        "needsSetup": (($has_env == "false") or ($has_remotion == "false"))
+        "needsSetup": (($has_package == "false") or ($has_env == "false"))
       },
       "autoSetup": {
         "enabled": true,
-        "installCommand": "npm install @remotion/lambda @remotion/player agentation"
+        "installCommand": "npm run setup"
       }
     }
   }' 2>/dev/null || echo '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"🔥 10x Marketing Team Ready | Developed by 10x.in"}}'

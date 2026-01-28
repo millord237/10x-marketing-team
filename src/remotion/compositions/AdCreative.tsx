@@ -1,14 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, useVideoConfig, interpolate, spring, Sequence } from 'remotion';
-
-interface AdCreativeProps {
-  headline: string;
-  benefit: string;
-  cta: string;
-  urgency: string;
-  brandColor: string;
-  accentColor: string;
-}
+import type { AdCreativeProps } from '../schemas';
 
 export const AdCreative: React.FC<AdCreativeProps> = ({
   headline,
@@ -17,14 +9,20 @@ export const AdCreative: React.FC<AdCreativeProps> = ({
   urgency,
   brandColor,
   accentColor,
+  headlineFontSize,
+  benefitFontSize,
+  ctaFontSize,
+  hookSeconds,
+  benefitSeconds,
+  ctaStartSeconds,
 }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  // Scene timing
-  const hookEnd = 180; // 6 seconds
-  const benefitEnd = 540; // 18 seconds
-  const ctaStart = 600; // 20 seconds
+  // Scene timing from props (editable in Studio)
+  const hookEnd = hookSeconds * fps;
+  const benefitEnd = (hookSeconds + benefitSeconds) * fps;
+  const ctaStart = ctaStartSeconds * fps;
 
   return (
     <AbsoluteFill>
@@ -71,6 +69,7 @@ export const AdCreative: React.FC<AdCreativeProps> = ({
           accentColor={accentColor}
           frame={frame}
           fps={fps}
+          fontSize={headlineFontSize}
         />
       </Sequence>
 
@@ -81,6 +80,7 @@ export const AdCreative: React.FC<AdCreativeProps> = ({
           brandColor={brandColor}
           frame={frame - hookEnd}
           fps={fps}
+          fontSize={benefitFontSize}
         />
       </Sequence>
 
@@ -93,6 +93,7 @@ export const AdCreative: React.FC<AdCreativeProps> = ({
           accentColor={accentColor}
           frame={frame - ctaStart}
           fps={fps}
+          fontSize={ctaFontSize}
         />
       </Sequence>
     </AbsoluteFill>
@@ -106,7 +107,8 @@ const HookScene: React.FC<{
   accentColor: string;
   frame: number;
   fps: number;
-}> = ({ headline, brandColor, accentColor, frame, fps }) => {
+  fontSize: number;
+}> = ({ headline, brandColor, accentColor, frame, fps, fontSize }) => {
   const words = headline.split(' ');
 
   return (
@@ -162,7 +164,7 @@ const HookScene: React.FC<{
             >
               <span
                 style={{
-                  fontSize: 64,
+                  fontSize,
                   fontWeight: 800,
                   color: i % 2 === 0 ? 'white' : brandColor,
                 }}
@@ -183,7 +185,8 @@ const BenefitScene: React.FC<{
   brandColor: string;
   frame: number;
   fps: number;
-}> = ({ benefit, brandColor, frame, fps }) => {
+  fontSize: number;
+}> = ({ benefit, brandColor, frame, fps, fontSize }) => {
   const entrance = spring({ frame, fps, from: 0, to: 1, durationInFrames: 25 });
 
   return (
@@ -229,7 +232,7 @@ const BenefitScene: React.FC<{
         {/* Text */}
         <p
           style={{
-            fontSize: 48,
+            fontSize,
             fontWeight: 600,
             color: 'white',
             lineHeight: 1.3,
@@ -273,7 +276,8 @@ const CTAScene: React.FC<{
   accentColor: string;
   frame: number;
   fps: number;
-}> = ({ cta, urgency, brandColor, accentColor, frame, fps }) => {
+  fontSize: number;
+}> = ({ cta, urgency, brandColor, accentColor, frame, fps, fontSize }) => {
   const entrance = spring({ frame, fps, from: 0, to: 1, durationInFrames: 20 });
   const pulse = 1 + Math.sin(frame * 0.15) * 0.03;
 
@@ -320,7 +324,7 @@ const CTAScene: React.FC<{
         >
           <span
             style={{
-              fontSize: 48,
+              fontSize,
               fontWeight: 800,
               background: `linear-gradient(90deg, ${brandColor}, ${accentColor})`,
               WebkitBackgroundClip: 'text',

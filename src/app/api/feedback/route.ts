@@ -44,7 +44,8 @@ export async function POST(request: NextRequest) {
       .slice(0, MAX_PROJECT_NAME_LENGTH);
 
     // Validate pageUrl if provided — only allow http/https
-    let safePageUrl = 'http://localhost:3000';
+    const defaultUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001';
+    let safePageUrl = defaultUrl;
     if (pageUrl) {
       try {
         const parsed = new URL(pageUrl);
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
         // invalid URL, use default
       }
     } else {
-      safePageUrl = request.headers.get('referer') || 'http://localhost:3000';
+      safePageUrl = request.headers.get('referer') || defaultUrl;
     }
 
     // Generate export data

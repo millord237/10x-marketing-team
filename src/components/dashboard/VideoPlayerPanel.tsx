@@ -51,7 +51,7 @@ export default function VideoPlayerPanel({ composition, onClose }: VideoPlayerPa
             {showEditor ? 'Hide Props' : 'Edit Props'}
           </button>
           <a
-            href="http://localhost:3000"
+            href={process.env.NEXT_PUBLIC_REMOTION_STUDIO_URL || 'http://localhost:3000'}
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-all"

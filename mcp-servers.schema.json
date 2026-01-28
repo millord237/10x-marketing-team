@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Servers Configuration",
+  "description": "Configuration schema for Model Context Protocol servers used by 10x Marketing Team",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
+    "servers": {
+      "type": "object",
+      "description": "Map of server names to their configurations",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["command", "args"],
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The command to run the MCP server (e.g., npx, node)"
+          },
+          "args": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Arguments passed to the command"
+          },
+          "env": {
+            "type": "object",
+            "additionalProperties": { "type": "string" },
+            "description": "Environment variables for the server process"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the server"
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this server is active"
+          }
+        }
+      }
+    }
+  },
+  "required": ["servers"]
+}
