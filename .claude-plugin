@@ -94,19 +94,18 @@
 
   "requirements": {
     "packages": [
-      "@remotion/lambda",
+      "remotion",
+      "@remotion/cli",
       "@remotion/player",
-      "agentation"
+      "@remotion/zod-types"
     ],
-    "environment": [
-      "REMOTION_SERVE_URL"
-    ]
+    "environment": []
   },
 
   "metadata": {
     "category": "marketing",
     "tags": ["marketing", "video", "remotion", "agentation", "ai-agents"],
-    "repository": "https://github.com/10x-marketing-team/10x-marketing-skill",
+    "repository": "https://github.com/Anit-1to10x/10x-marketing-team",
     "documentation": "https://10x.in/docs"
   }
 }
